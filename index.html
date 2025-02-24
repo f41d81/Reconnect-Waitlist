@@ -1,24 +1,49 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reconnect Waitlist</title>
+  <title>Waiting List</title>
 </head>
 <body>
-    <h2>Daftar Waitlist</h2>
-    <form id="waitlist-form">
-        <label for="name">Nama:</label>
-        <input type="text" id="name" required><br>
-        
-        <label for="email">Email:</label>
-        <input type="email" id="email" required><br>
-        
-        <button type="submit">Kirim</button>
-    </form>
+  <h1>Daftar Tunggu</h1>
+  <form id="waitlist-form">
+    <label for="name">Nama:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
 
-    <p id="response-message"></p>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
 
-    <script src="script.js"></script>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="response-message"></div>
+
+  <script>
+    document.getElementById("waitlist-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+
+      fetch("https://script.google.com/macros/s/AKfycbxL-CvBnFp6nLFl1DiEtoQ1dss25IZcmX-tA-WJcC7OCm0y22HucP73fRr-Tp1MavIU/exec", { // Ganti dengan URL web app Anda
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name, email: email })
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(err => {throw new Error(err.message || 'Kesalahan server')});
+        }
+        return response.json();
+      })
+      .then(result => {
+        document.getElementById("response-message").innerText = result.status === "success"
+          ? "Pendaftaran berhasil!"
+          : "Gagal: " + result.message;
+      })
+      .catch(error => {
+        document.getElementById("response-message").innerText = "Terjadi kesalahan: " + error.message;
+        console.error("Error:", error);
+      });
+    });
+  </script>
 </body>
 </html>
