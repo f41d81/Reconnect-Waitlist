@@ -66,27 +66,28 @@
     </div>
 
     <script>
-        document.getElementById("waitingListForm").addEventListener("submit", function(event) {
-            event.preventDefault();
+document.getElementById("waitingListForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-            var name = document.getElementById("name").value;
-            var email = document.getElementById("email").value;
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
 
-            fetch("https://script.google.com/macros/s/AKfycbyXXKokvf5A6-sOHNJA7vIfgYkcVh5xsJKWMjazjUMLdtAeBVZMCFTUeYsM6p1jIyYn/exec", {
-                method: "POST",
-                body: JSON.stringify({ name: name, email: email }),
-                headers: { "Content-Type": "application/json" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("message").textContent = "Terima kasih! Anda sudah masuk waiting list.";
-                document.getElementById("waitingListForm").reset();
-            })
-            .catch(error => {
-                document.getElementById("message").textContent = "Terjadi kesalahan, coba lagi.";
-                console.error("Error:", error);
-            });
-        });
+    fetch("https://script.google.com/macros/s/AKfycbwVOKov_iSLwWQt6AoduyUkb3buMWnUAuvz6lt75CE2C3F-K5QEboMUDvqdQaG5jmqv/exec", {
+        method: "POST",
+        body: JSON.stringify({ name: name, email: email }),
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Response:", data); // Debugging
+        document.getElementById("message").textContent = "Terima kasih! Anda sudah masuk waiting list.";
+        document.getElementById("waitingListForm").reset();
+    })
+    .catch(error => {
+        console.error("Error:", error); // Debugging
+        document.getElementById("message").textContent = "Terjadi kesalahan, coba lagi.";
+    });
+});
     </script>
 
 </body>
