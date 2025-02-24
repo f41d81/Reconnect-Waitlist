@@ -17,33 +17,41 @@
   <div id="response-message"></div>
 
   <script>
-    document.getElementById("waitlist-form").addEventListener("submit", function(event) {
-      event.preventDefault();
+ document.getElementById("waitlist-form").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
 
-      fetch("https://script.google.com/macros/s/AKfycbxL-CvBnFp6nLFl1DiEtoQ1dss25IZcmX-tA-WJcC7OCm0y22HucP73fRr-Tp1MavIU/exec", { // Ganti dengan URL web app Anda
+    fetch("https://script.google.com/macros/s/AKfycbxL-CvBnFp6nLFl1DiEtoQ1dss25IZcmX-tA-WJcC7OCm0y22HucP73fRr-Tp1MavIU/exec", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name, email: email })
-      })
-      .then(response => {
+    })
+  .then(response => {
         if (!response.ok) {
-          return response.json().then(err => {throw new Error(err.message || 'Kesalahan server')});
+            // Coba parsing error dari JSON, jika tidak ada, berikan pesan umum
+            return response.json().then(err => {
+                throw new Error(err.message || 'Terjadi kesalahan server. Mohon coba lagi nanti.');
+            }).catch(error => { 
+                throw new Error('Terjadi kesalahan server. Mohon coba lagi nanti.'); 
+            });
         }
         return response.json();
-      })
-      .then(result => {
-        document.getElementById("response-message").innerText = result.status === "success"
-          ? "Pendaftaran berhasil!"
-          : "Gagal: " + result.message;
-      })
-      .catch(error => {
+    })
+  .then(result => {
+        // Berikan pesan yang lebih spesifik berdasarkan status
+        if (result.status === "success") {
+            document.getElementById("response-message").innerText = "Pendaftaran berhasil!";
+        } else {
+            document.getElementById("response-message").innerText = "Gagal: " + (result.message || "Terjadi kesalahan.");
+        }
+    })
+  .catch(error => {
         document.getElementById("response-message").innerText = "Terjadi kesalahan: " + error.message;
         console.error("Error:", error);
-      });
     });
+});
   </script>
 </body>
 </html>
