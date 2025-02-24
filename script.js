@@ -9,24 +9,24 @@ document.getElementById("waitlist-form").addEventListener("submit", function(eve
         email: email
     };
 
-    fetch("https://script.google.com/macros/s/AKfycbymbqgkiqxZUdBCUwRsN4t7rQpz71Rqrv6fDQpakDaeGKC4Qhw225qYK2GAvmvD2zgl/exec", {
+    fetch("https://script.google.com/macros/s/AKfycby7_k7VYcYsgLq2JalaAuAtidw81uk3GzIbOslJ0qrO4_Nbn0OgN0YHsQTV9rT9UfXw/exec", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     })
-    .then(response => {
-        if (!response.ok) { // Periksa kesalahan HTTP (4xx atau 5xx)
-            return response.json().then(err => {throw new Error(err.message || 'Kesalahan server')}); // Parse kesalahan dari JSON jika tersedia
+  .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => {throw new Error(err.message || 'Kesalahan server')});
         }
-        return response.json(); // Lanjutkan jika responsnya ok
+        return response.json();
     })
-    .then(result => {
+  .then(result => {
         document.getElementById("response-message").innerText = result.status === "success"
-            ? "Pendaftaran berhasil!"
-            : "Gagal: " + result.message;
+          ? "Pendaftaran berhasil!"
+          : "Gagal: " + result.message;
     })
-    .catch(error => {
-        document.getElementById("response-message").innerText = "Terjadi kesalahan: " + error.message; // Tampilkan kesalahan yang lebih spesifik
+  .catch(error => {
+        document.getElementById("response-message").innerText = "Terjadi kesalahan: " + error.message;
         console.error("Error:", error);
     });
 });
