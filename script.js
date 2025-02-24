@@ -9,8 +9,9 @@ document.getElementById("waitlist-form").addEventListener("submit", function(eve
         email: email
     };
 
-    fetch("https://script.google.com/macros/s/AKfycbyzExfssV5f8ZynhIYq1y3sO-iwyovcwSM-zcrZJgD7IdHh9Q8tUpqv7HYuqrvtIgoy/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbzoqJCkN9nOyq2-6QUOiTtrb9Oh4msR-tNuIzhBWTACHMneoLwZoBf67H0dYrsADYNb/exec", {
         method: "POST",
+        mode: "cors", // Tambahkan ini agar request diterima oleh server
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     })
